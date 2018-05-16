@@ -1,9 +1,35 @@
 import "../scss/main.scss";
 import {cards} from './modules/cards';
+import {deal} from './modules/deal';
 
 let deck = [];
+let hands = [
+    {
+        name: 'Computer',
+        cards: []
+    },
+    {
+        name: 'Player',
+        cards: []
+    }
+    
+];
 
 cards.createDeck(deck, true);   //Create new deck, cards face up
 cards.shuffleDeck(deck);
+
 console.table(deck);
-cards.createUI(deck, table);
+
+//Modal window to choose number of players
+//Hands is an array containing each an array for each player which in turn contains all the cards that player holds
+console.table(hands);
+
+//deal() removes cards from the deck and adds them to a player array
+deal(hands, 0, deck, 2, false);
+deal(hands, 1, deck, 2, true);
+
+console.table(deck);
+console.table(hands);
+
+cards.createUI(hands[0].cards, playerComputer);
+cards.createUI(hands[1].cards, playerHuman);

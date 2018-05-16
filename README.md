@@ -1,5 +1,5 @@
-# Playing cards
-A module creatively named `cards` which contains methods to generate responsive playing cards and output them to the DOM. 
+# Blackjack
+A blackjack implemenation leveraging the `cards` object from https://github.com/freshlybakedcode/playing-cards-2
 
 ## How to use
 * Clone
