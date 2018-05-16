@@ -1,11 +1,25 @@
-# webpack-boilerplate
-Webapp boilerplate using Webpack 4 for bundling, task running etc.  It comes with a few base SCSS files and a JS test runner as well.
+# Playing cards
+A module creatively named `cards` which contains methods to generate responsive playing cards and output them to the DOM. 
 
 ## How to use
+* Clone
+* `npm i`
 * Start dev build in server and watch with `npm start` (will automatically navigate to `localhost:8080`)
 * Single dev build only with `npm run dev`
 * Production build with `npm run dist`
 * From the root folder, `npm test` will execute all the tests in the tests directory and then keep watch of the relevant files
+
+### Available methods
+* cards.createDeck(yourDeck, bool)
+`yourDeck`: array to push the cards into 
+`bool`: true will set cards to be face up, false will set them face down
+
+* cards.shuffleDeck(yourDeck)
+`yourDeck`: array containing cards to be shuffled
+
+* cards.createUI(yourDeck, divID)
+`yourDeck`: array containing cards to have UI elements drawn 
+`divID`: ID in DOM where cards will be inserted
 
 ## Notes and stuff this does:
 * Work on product from `/src` directory
