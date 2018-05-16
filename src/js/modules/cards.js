@@ -21,7 +21,7 @@ const cards = {
 
     while (remainingElements) {
       // Pick a remaining element…
-      elementToMove = Math.floor(Math.random() * remainingElements--);
+      elementToMove = Math.floor(Math.random() * (remainingElements -= 1));
       // And swap it with the current element.
       temp = deck[remainingElements];
       deck[remainingElements] = deck[elementToMove];
@@ -30,19 +30,19 @@ const cards = {
   },
   createUI: function createUI(deck, insertPosition) {
     deck.forEach((element) => {
-      // Create a new div element 
+      // Create a new div element
       const newCard = document.createElement('div');
-      let symbols = ''; //Glyphs shown in middle of card
-      if (element.value < 11) { //Not a picture card
-        for (let i = 0; i < element.value; i++) {
-          let invertedModifier = 0; //6 & 7 need a tweak to calculate which glyphs need inverting
+      let symbols = ''; // Glyphs shown in middle of card
+      if (element.value < 11) { // Not a picture card
+        for (let i = 0; i < element.value; i += 1) {
+          let invertedModifier = 0; // 6 & 7 need a tweak to calculate which glyphs need inverting
           element.value === 6 || element.value === 7 ? invertedModifier = 1 : invertedModifier = 0;
           if (i >= Math.ceil(element.value / 2) + invertedModifier) {
             symbols += `<span class="inverted"></span>`;
           } else {
             symbols += `<span></span>`;
           }
-        };
+        }
       } else if (element.value === 11) {
         symbols = `<span class="jack"></span>`;
       } else if (element.value === 12) {

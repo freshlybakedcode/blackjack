@@ -1,6 +1,7 @@
 import '../scss/main.scss';
 import cards from './modules/cards';
-import { deal } from './modules/deal';
+import deal from './modules/deal';
+import { getScores } from './modules/scoring';
 
 const deck = [];
 const hands = [
@@ -29,6 +30,7 @@ deal(hands, 1, deck, 2, true);
 
 console.table(deck);
 console.table(hands);
+console.log(getScores(hands));
 
 cards.createUI(hands[0].cards, playerComputer);
 cards.createUI(hands[1].cards, playerHuman);
