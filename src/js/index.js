@@ -1,5 +1,9 @@
 import "../scss/main.scss";
-import {add} from './modules/maths';
+import {cards} from './modules/cards';
 
-console.log("hello, world!");
-console.log(add(2,3));
+let deck = [];
+
+cards.createDeck(deck, true);   //Create new deck, cards face up
+cards.shuffleDeck(deck);
+cards.createUI(deck, table);
+console.table(deck);

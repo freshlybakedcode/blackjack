@@ -1,0 +1,332 @@
+$club:		'\2663';
+$diamond:	'\2666';
+$heart:		'\2665';
+$spade: 	'\2660';
+
+.card {
+	float: left;
+	padding: 0.1em;
+	margin: 1vw;
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	position: relative;
+	width: 20vw;
+	height: 27vw;
+	&.clubs,
+	&.spades {
+		color: black;
+	}
+	&.hearts,
+	&.diamonds {
+		color: red;
+	}
+	&.clubs {
+		.top, 
+		.bottom,
+		.middle span {
+			&:after {
+				content: $club;
+			}
+		}
+	}
+	&.diamonds {
+		.top, 
+		.bottom,
+		.middle span {
+			&:after {
+				content: $diamond;
+			}
+		}
+	}
+	&.hearts {
+		.top, 
+		.bottom,
+		.middle span {
+			&:after {
+				content: $heart;
+			}
+		}
+	}
+	&.spades {
+		.top, 
+		.bottom,
+		.middle span {
+			&:after {
+				content: $spade;
+			}
+		}
+	}
+	.middle span.jack {
+		&:after {
+			content: "J";
+		}
+	}
+	.middle span.queen {
+		&:after {
+			content: "Q";
+		}
+	}
+	.middle span.king {
+		&:after {
+			content: "K";
+		}
+	}
+	.top,
+	.bottom {
+		width: 20%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		font-size: 3vw;
+		&:after {
+			display: block;
+		}
+	}
+	.middle {
+		margin: -0.5em 4vw;
+		display: flex;
+		border: 1px solid #eee;
+		width: 12vw;
+		height: 19vw;
+		font-size: 6vw;
+		position: relative;
+		span {
+			&:after {
+				line-height: 0.7em;
+			}
+		}
+	}
+	.bottom {
+		&.inverted {
+			float: right;
+			margin-top: 0;
+		}
+	}
+	.inverted {
+		transform: rotate(180deg);
+		justify-content: flex-end;
+		margin-top: 0.2vw;	//Inverted glyphs naturally have white space which needs compensation
+	}
+	.card-front,
+	.card-back {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		backface-visibility: hidden;
+		transition: transform 0.3s, background-color 0.5s ease-out 1.2s;
+		justify-content: flex-end;
+		border-radius: 4px;
+		box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.2);
+	}
+	.card-front {
+		background-color: white;
+		border: 1px solid #ccc;
+		border-radius: 3px;
+		transform: rotateY(-180deg);
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+		font-size: 15vw;
+	}
+	.card-back {
+		background-color: #556; //http://lea.verou.me/css3patterns/#japanese-cube
+		background-image: linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a), linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a);
+		background-size: 80px 140px;
+		background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+	}
+	&.face-up {
+		.card-front {
+			transform: rotateY(0);
+		}
+		.card-back {
+			transform: rotateY(-180deg);
+		}
+	}
+}
+
+
+/* Individual layouts */
+._A {
+	.middle span:after {
+		font-size: 9vw;
+	}
+}
+._J,
+._Q,
+._K {
+	.middle span:after {
+		font-size: 12vw;
+		// text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+		font-family: sans-serif;
+	}
+}
+._A,
+._J,
+._Q,
+._K,
+._2,
+._3 {
+	.middle {
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-around;
+	}
+}
+._2,
+._3 {
+	.middle {
+		justify-content: space-between;
+	}
+}
+._4,
+._5,
+._6,
+._7,
+._8,
+._9,
+._10 {
+	.middle {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: stretch;
+		span {
+			flex-basis: 50%;
+			flex-direction: row;
+			display: flex;
+			align-items: flex-start;
+		}
+		span:nth-child(2n) {
+			justify-content: flex-end;
+			&.inverted {
+				justify-content: flex-start;
+			}
+		}
+		span:nth-child(1n+3) {
+			display: flex;
+			align-items: flex-end;
+			&.inverted {
+				align-items: flex-start;
+			}
+		}
+	}
+}
+._3 {
+	.middle {
+		span {
+			display: flex;
+			justify-content: flex-end;
+		}
+	}
+}
+._5,
+._7 {
+	.middle {
+		span:nth-child(3) {
+			flex-basis: 100%;
+			justify-content: center;
+			align-items: center;
+		}
+		span:nth-child(4) {
+			justify-content: flex-start;
+			&.inverted {
+				justify-content: flex-end;
+			}
+		}
+		span:nth-child(5) {
+			justify-content: flex-end;
+			&.inverted {
+				justify-content: flex-start;
+			}
+		}
+	}
+}
+._6 {
+	.middle {
+		span:nth-child(3),
+		span:nth-child(4) {
+			align-items: center;
+		}
+	}
+}
+._7 {
+	.middle {
+		span:nth-child(3) {
+			position: absolute;
+			top: 20%;
+			left: 0;
+			right: 0;
+			margin: auto
+		}
+		span:nth-child(4),
+		span:nth-child(5) {
+			align-items: center;
+		}
+		span.inverted:nth-child(6) {
+			justify-content: flex-end;
+		}
+		span.inverted:nth-child(7) {
+			justify-content: flex-start;
+		}
+	}
+}
+._8 {
+	.middle {
+		span:nth-child(1n+3) {
+			align-items: center;
+		}
+		span:nth-child(1n+7) {
+			align-items: flex-end;
+		}
+	}
+}
+._9 {
+	.middle {
+		span:nth-child(5) {
+			position: absolute;
+			top: 40%;
+			left: 0;
+			right: 0;
+			margin: auto;
+			justify-content: center;
+		}
+		span.inverted:nth-child(2n+6) {
+			justify-content: flex-end;
+		}
+		span.inverted:nth-child(2n+7) {
+			justify-content: flex-start;
+		}
+	}
+}
+._10 {
+	.middle {
+		span:nth-child(3),
+		span:nth-child(7) {
+			position: absolute;
+			left: 0;
+			right: 0;
+			margin: auto;
+			justify-content: center;
+		}
+		span:nth-child(3) {
+			top: 15%;
+		}
+		span:nth-child(7) {
+			top: 65%;
+		}
+		span:nth-child(2n+4) {
+			justify-content: flex-start;
+			&.inverted {
+				justify-content: flex-end;
+			}
+		}
+		span:nth-child(5),
+		span:nth-child(2n+8) {
+			justify-content: flex-end;
+			&.inverted {
+				justify-content: flex-start;
+			}
+		}
+	}
+}
