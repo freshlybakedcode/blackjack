@@ -10,15 +10,15 @@ A module creatively named `cards` which contains methods to generate responsive 
 * From the root folder, `npm test` will execute all the tests in the tests directory and then keep watch of the relevant files
 
 ### Available methods
-* cards.createDeck(yourDeck, bool)
-`yourDeck`: array to push the cards into 
+* cards.createDeck(yourDeck, bool)<br />
+`yourDeck`: array to push the cards into <br />
 `bool`: true will set cards to be face up, false will set them face down
 
-* cards.shuffleDeck(yourDeck)
+* cards.shuffleDeck(yourDeck)<br />
 `yourDeck`: array containing cards to be shuffled
 
-* cards.createUI(yourDeck, divID)
-`yourDeck`: array containing cards to have UI elements drawn 
+* cards.createUI(yourDeck, divID)<br />
+`yourDeck`: array containing cards to have UI elements drawn <br />
 `divID`: ID in DOM where cards will be inserted
 
 ## Notes and stuff this does:
