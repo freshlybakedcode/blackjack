@@ -5,5 +5,5 @@ let deck = [];
 
 cards.createDeck(deck, true);   //Create new deck, cards face up
 cards.shuffleDeck(deck);
-cards.createUI(deck, table);
 console.table(deck);
+cards.createUI(deck, table);

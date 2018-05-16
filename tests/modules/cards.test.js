@@ -2,6 +2,8 @@ import assert from 'assert';
 import {cards} from '../../src/js/modules/cards';
 
 let deck = [];
+let shuffledDeck = [];
+cards.createDeck(shuffledDeck, true);
 
 describe('cards.js tests', function() {
     describe('`cards` object', function() {
@@ -32,6 +34,9 @@ describe('cards.js tests', function() {
         describe('shuffleDeck() function', function() {
             it('should exist', function() {
                 assert.notStrictEqual(cards.shuffleDeck, undefined);
+            });
+            it('should change the order of the cards', function() {
+                assert.notStrictEqual(cards.shuffleDeck(shuffledDeck), deck);
             });
         });
 
