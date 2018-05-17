@@ -4,10 +4,12 @@ const cards = {
   createDeck: function createDeck(deckArrayName, faceUp) {
     this.suits.forEach((suit) => {
       this.face.forEach((face, index) => {
+        let value = index + 1;
+        value > 10 ? value = 10 : value; // Max value is 10
         const card = {
           face,
           suit,
-          value: index + 1,
+          value,
           faceUp,
         };
         deckArrayName.push(card);
