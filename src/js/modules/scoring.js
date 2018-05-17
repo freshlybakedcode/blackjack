@@ -1,4 +1,4 @@
-/* eslint linebreak-style: ["error", "windows"] */
+const playerScoreDOM = document.getElementById('playerScore');
 
 export function getScores(hands) {
   const scores = [];
@@ -12,6 +12,6 @@ export function getScores(hands) {
   return scores;
 }
 
-export function somethingElse() {
-
+export function updateScore(value) {
+  playerScoreDOM.innerHTML = value;
 }
