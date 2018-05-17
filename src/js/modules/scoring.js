@@ -1,3 +1,4 @@
+const computerScoreDOM = document.getElementById('computerScore');
 const playerScoreDOM = document.getElementById('playerScore');
 
 const handContainsAce = function handContainsAce(hand) {
@@ -20,8 +21,9 @@ export function getScores(hands) { // Returns an array with both the computer an
   return scores;
 }
 
-export function renderScore(value) { // Outputs the player score to screen
-  playerScoreDOM.innerHTML = value;
+export function renderScore(values) { // Outputs the scores to screen
+  computerScoreDOM.innerHTML = values[0];
+  playerScoreDOM.innerHTML = values[1];
 }
 
 export function checkScore(hands) { // Assesses the player's score for bust/winning/splitting etc
@@ -29,11 +31,14 @@ export function checkScore(hands) { // Assesses the player's score for bust/winn
   console.log(value);
   if (value[1] > 21 && !handContainsAce(hands[1])) { // If over 21 but there are no aces then bust
     console.log('bust');
+    return false;
   }
   if (value[1] > 21 && handContainsAce(hands[1])) { // If over 21 but there is an ace so it'll count as 1 not 11
     console.log('Need to do more maths here');
   }
   if (hands[1].cards.length === 2 && hands[1].cards[0].face === hands[1].cards[1].face) {
     console.log('Can split');
+  } else {
+    return true;
   }
 }

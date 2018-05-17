@@ -8,36 +8,50 @@ const hitDOM = document.getElementById('hit');
 const stickDOM = document.getElementById('stick');
 const splitDOM = document.getElementById('split');
 
+let controlsEnabled = true;
+
 const deck = [];
 const hands = [
   {
     name: 'Computer',
     cards: [],
-    score: 0,
   },
   {
     name: 'Player',
     cards: [],
-    score: 0,
   },
 ];
 
 hitDOM.addEventListener('click', () => {
-  deal(hands, 1, deck, 1, true);
-  cards.createUI(hands[1].cards, playerHuman);
-  renderScore(getScores(hands)[1]);
-  checkScore(hands);
+  if (controlsEnabled) {
+    deal(hands, 1, deck, 1, true);
+    cards.createUI(hands[1].cards, playerHuman);
+    renderScore(getScores(hands));
+    controlsEnabled = checkScore(hands); // Will return false if bust
+  }
 });
 
 stickDOM.addEventListener('click', () => {
-  console.log('stickDOM');
+  if (controlsEnabled) {
+    console.log('stickDOM');
+    // Freeze controls
+    controlsEnabled = false;
+    // Reveal computer cards
+    // Add and display computer score
+    // Play game
+    // Choose victor
+  }
 });
 
 splitDOM.addEventListener('click', () => {
-  console.log('splitDOM');
+  if (controlsEnabled) {
+    console.log('splitDOM');
+    // Work out how to play multiple hands
+  }
 });
 
 const initNewGame = function initNewGame() {
+  controlsEnabled = true;
   cards.createDeck(deck, true); // Create new deck, cards face up
   cards.shuffleDeck(deck);
 
@@ -50,18 +64,14 @@ const initNewGame = function initNewGame() {
   cards.createUI(hands[1].cards, playerHuman);
 
   // Render the player score in DOM
-  renderScore(getScores(hands)[1]);
+  renderScore(getScores(hands));
 };
 
 initNewGame();
 
 // console.table(deck);
-
-// Modal window to choose number of players
-// Hands is an array containing each an array for each player which in turn contains all the cards that player holds
 // console.table(hands);
 // console.table(deck);
 // console.table(hands);
 // console.log(getScores(hands));
-// checkScore(hands);
 
