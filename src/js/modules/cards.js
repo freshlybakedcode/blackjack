@@ -6,6 +6,7 @@ const cards = {
       this.face.forEach((face, index) => {
         let faceValue = index + 1;
         faceValue > 10 ? faceValue = 10 : faceValue; // Max faceValue is 10
+        faceValue === 1 ? faceValue = 11 : faceValue; // Unless it's an ace, in which case it's 11
         const card = {
           face,
           suit,
