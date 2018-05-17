@@ -72,6 +72,13 @@ const cards = {
       insertPosition.appendChild(newCard);
     });
   },
+  flip: function flip(cards) {
+    console.log(cards);
+    cards.forEach((card) => {
+      card.faceUp = !card.faceUp;
+    });
+    return cards;
+  },
 };
 
 export default cards;

@@ -2,11 +2,12 @@ import '../scss/main.scss';
 import cards from './modules/cards';
 import deal from './modules/deal';
 import { getScores, renderScore, checkScore } from './modules/scoring';
-
-// We're gonna hook up some stuff to the buttons in the DOM
+import playAI from './modules/playAI';
+// DOM elements
 const hitDOM = document.getElementById('hit');
 const stickDOM = document.getElementById('stick');
 const splitDOM = document.getElementById('split');
+const computerScoreDOM = document.getElementById('computerScore');
 
 let controlsEnabled = true;
 
@@ -37,8 +38,12 @@ stickDOM.addEventListener('click', () => {
     // Freeze controls
     controlsEnabled = false;
     // Reveal computer cards
-    // Add and display computer score
+    hands[0].cards.cards = cards.flip(hands[0].cards);
+    // Display computer score and updated cards
+    computerScoreDOM.classList.remove('hide');
+    cards.createUI(hands[0].cards, playerComputer);
     // Play game
+    playAI(hands);
     // Choose victor
   }
 });
@@ -51,6 +56,7 @@ splitDOM.addEventListener('click', () => {
 });
 
 const initNewGame = function initNewGame() {
+  computerScoreDOM.classList.add('hide');
   controlsEnabled = true;
   cards.createDeck(deck, true); // Create new deck, cards face up
   cards.shuffleDeck(deck);
