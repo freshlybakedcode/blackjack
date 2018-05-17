@@ -2,7 +2,11 @@ import '../scss/main.scss';
 import cards from './modules/cards';
 import deal from './modules/deal';
 import { getScores, updateScore } from './modules/scoring';
-import interfaceDOM from './modules/interfaceDOM';
+
+// We're gonna hook up some stuff to the buttons in the DOM
+const hitDOM = document.getElementById('hit');
+const stickDOM = document.getElementById('stick');
+const splitDOM = document.getElementById('split');
 
 const deck = [];
 const hands = [
@@ -15,6 +19,20 @@ const hands = [
     cards: [],
   },
 ];
+
+hitDOM.addEventListener('click', () => {
+  deal(hands, 1, deck, 1, true);
+  cards.createUI(hands[1].cards, playerHuman);
+  updateScore(getScores(hands)[1]);
+});
+
+stickDOM.addEventListener('click', () => {
+  console.log('stickDOM');
+});
+
+splitDOM.addEventListener('click', () => {
+  console.log('splitDOM');
+});
 
 cards.createDeck(deck, true); // Create new deck, cards face up
 cards.shuffleDeck(deck);

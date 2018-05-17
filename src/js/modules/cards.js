@@ -4,12 +4,13 @@ const cards = {
   createDeck: function createDeck(deckArrayName, faceUp) {
     this.suits.forEach((suit) => {
       this.face.forEach((face, index) => {
-        let value = index + 1;
-        value > 10 ? value = 10 : value; // Max value is 10
+        let faceValue = index + 1;
+        faceValue > 10 ? faceValue = 10 : faceValue; // Max faceValue is 10
         const card = {
           face,
           suit,
-          value,
+          value: index + 1,
+          faceValue,
           faceUp,
         };
         deckArrayName.push(card);
@@ -31,6 +32,7 @@ const cards = {
     }
   },
   createUI: function createUI(deck, insertPosition) {
+    insertPosition.innerHTML = ''; // Remove the contents of the insert position first
     deck.forEach((element) => {
       // Create a new div element
       const newCard = document.createElement('div');

@@ -5,7 +5,7 @@ export function getScores(hands) {
   hands.forEach((hand) => {
     let score = 0;
     hand.cards.forEach((card) => {
-      score += card.value;
+      score += card.faceValue;
     });
     scores.push(score);
   });
