@@ -2,7 +2,8 @@ import '../scss/main.scss';
 import cards from './modules/cards';
 import deal from './modules/deal';
 import { getScores, renderScore, checkScore } from './modules/scoring';
-import playAI from './modules/playAI';
+import AIHelper from './modules/AIHelper';
+
 // DOM elements
 const hitDOM = document.getElementById('hit');
 const stickDOM = document.getElementById('stick');
@@ -10,7 +11,6 @@ const splitDOM = document.getElementById('split');
 const computerScoreDOM = document.getElementById('computerScore');
 
 let controlsEnabled = true;
-
 const deck = [];
 const hands = [
   {
@@ -47,6 +47,23 @@ const finishGame = function finishGame(AIResponse) {
   console.log(AIResponse);
 };
 
+const computerPlays = function computerPlays() {
+  let finishMessage = '';
+  while (AIHelper.gameIsInPlay !== false) {
+    AIHelper.currentScoreSetter(getScores(hands));
+    // Has the computer already won?
+    if (AIHelper.computerHasWon()) {
+      finishMessage = AIHelper.computerHasWon();
+      break;
+    }
+    // If not, play a card
+    deal(hands, 0, deck, 1, true);
+    cards.createUI(hands[0].cards, playerComputer);
+    renderScore(getScores(hands));
+  }
+  finishGame(finishMessage);
+};
+
 hitDOM.addEventListener('click', () => {
   if (controlsEnabled) {
     deal(hands, 1, deck, 1, true);
@@ -67,8 +84,7 @@ stickDOM.addEventListener('click', () => {
     computerScoreDOM.classList.remove('hide');
     cards.createUI(hands[0].cards, playerComputer);
     // Play game
-    finishGame(playAI(hands));
-    // Choose victor
+    computerPlays();
   }
 });
 
