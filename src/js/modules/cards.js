@@ -79,6 +79,12 @@ const cards = {
     });
     return cards;
   },
+  reveal: function reveal(cards) {
+    cards.forEach((card) => {
+      card.faceUp = true;
+    });
+    return cards;
+  },
 };
 
 export default cards;

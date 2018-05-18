@@ -30,7 +30,8 @@ const initNewGame = function initNewGame() {
   cards.shuffleDeck(deck);
 
   // deal() removes cards from the deck and adds them to a player array
-  deal(hands, 0, deck, 2, false);
+  deal(hands, 0, deck, 1, false);
+  deal(hands, 0, deck, 1, true);
   deal(hands, 1, deck, 2, true);
 
   // display the dealt cards in DOM
@@ -61,7 +62,7 @@ stickDOM.addEventListener('click', () => {
     // Freeze controls
     controlsEnabled = false;
     // Reveal computer cards
-    hands[0].cards.cards = cards.flip(hands[0].cards);
+    hands[0].cards.cards = cards.reveal(hands[0].cards);
     // Display computer score and updated cards
     computerScoreDOM.classList.remove('hide');
     cards.createUI(hands[0].cards, playerComputer);
