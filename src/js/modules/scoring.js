@@ -26,17 +26,17 @@ export function renderScore(values) { // Outputs the scores to screen
   playerScoreDOM.innerHTML = values[1];
 }
 
-export function checkScore(hands) { // Assesses the player's score for bust/winning/splitting etc
+export function checkScore(hands, index) { // Assesses the player's score for bust/winning/splitting etc
   const value = getScores(hands);
   console.log(value);
-  if (value[1] > 21 && !handContainsAce(hands[1])) { // If over 21 but there are no aces then bust
+  if (value[index] > 21 && !handContainsAce(hands[index])) { // If over 21 but there are no aces then bust
     console.log('bust');
     return false;
   }
-  if (value[1] > 21 && handContainsAce(hands[1])) { // If over 21 but there is an ace so it'll count as 1 not 11
+  if (value[index] > 21 && handContainsAce(hands[index])) { // If over 21 but there is an ace so it'll count as 1 not 11
     console.log('Need to do more maths here');
   }
-  if (hands[1].cards.length === 2 && hands[1].cards[0].face === hands[1].cards[1].face) {
+  if (hands[index].cards.length === 2 && hands[index].cards[0].face === hands[index].cards[1].face) {
     console.log('Can split');
   } else {
     return true;

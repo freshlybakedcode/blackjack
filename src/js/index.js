@@ -23,38 +23,6 @@ const hands = [
   },
 ];
 
-hitDOM.addEventListener('click', () => {
-  if (controlsEnabled) {
-    deal(hands, 1, deck, 1, true);
-    cards.createUI(hands[1].cards, playerHuman);
-    renderScore(getScores(hands));
-    controlsEnabled = checkScore(hands); // Will return false if bust
-  }
-});
-
-stickDOM.addEventListener('click', () => {
-  if (controlsEnabled) {
-    console.log('stickDOM');
-    // Freeze controls
-    controlsEnabled = false;
-    // Reveal computer cards
-    hands[0].cards.cards = cards.flip(hands[0].cards);
-    // Display computer score and updated cards
-    computerScoreDOM.classList.remove('hide');
-    cards.createUI(hands[0].cards, playerComputer);
-    // Play game
-    playAI(hands);
-    // Choose victor
-  }
-});
-
-splitDOM.addEventListener('click', () => {
-  if (controlsEnabled) {
-    console.log('splitDOM');
-    // Work out how to play multiple hands
-  }
-});
-
 const initNewGame = function initNewGame() {
   computerScoreDOM.classList.add('hide');
   controlsEnabled = true;
@@ -72,6 +40,43 @@ const initNewGame = function initNewGame() {
   // Render the player score in DOM
   renderScore(getScores(hands));
 };
+
+const finishGame = function finishGame(AIResponse) {
+  // AIResponse is returned from playAI()
+  console.log(AIResponse);
+};
+
+hitDOM.addEventListener('click', () => {
+  if (controlsEnabled) {
+    deal(hands, 1, deck, 1, true);
+    cards.createUI(hands[1].cards, playerHuman);
+    renderScore(getScores(hands));
+    controlsEnabled = checkScore(hands, 1); // Will return false if bust
+  }
+});
+
+stickDOM.addEventListener('click', () => {
+  if (controlsEnabled) {
+    console.log('stickDOM');
+    // Freeze controls
+    controlsEnabled = false;
+    // Reveal computer cards
+    hands[0].cards.cards = cards.flip(hands[0].cards);
+    // Display computer score and updated cards
+    computerScoreDOM.classList.remove('hide');
+    cards.createUI(hands[0].cards, playerComputer);
+    // Play game
+    finishGame(playAI(hands));
+    // Choose victor
+  }
+});
+
+splitDOM.addEventListener('click', () => {
+  if (controlsEnabled) {
+    console.log('splitDOM');
+    // Work out how to play multiple hands
+  }
+});
 
 initNewGame();
 
