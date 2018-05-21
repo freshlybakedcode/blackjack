@@ -54,6 +54,9 @@ const finishGame = function finishGame(AIResponse) {
 
 const computerPlays = function computerPlays() {
   let finishMessage = '';
+  hands[0].cards.cards = cards.reveal(hands[0].cards); // Reveal computer cards
+  computerScoreDOM.classList.remove('hide'); // Display computer score
+  cards.createUI(hands[0].cards, playerComputer); // Display updated cards
   while (AIHelper.gameIsInPlay !== false) {
     AIHelper.currentScoreSetter(getScores(hands));
     // Has the computer already won?
@@ -81,15 +84,15 @@ hitDOM.addEventListener('click', () => {
     console.log(checkPlayerScoreData[1]);
     hands = checkPlayerScoreData[2]; // Update hands array in case of aces scoring etc.
     renderScore(getScores(hands)); // Update scores last in case of new hands data
+    if (!checkPlayerScoreData[0]) { // Player must be bust, computer's turn
+      computerPlays();
+    }
   }
 });
 
 stickDOM.addEventListener('click', () => {
   if (controlsEnabled) {
     controlsEnabled = false; // Freeze controls
-    hands[0].cards.cards = cards.reveal(hands[0].cards); // Reveal computer cards
-    computerScoreDOM.classList.remove('hide'); // Display computer score and updated cards
-    cards.createUI(hands[0].cards, playerComputer);
     // Play game
     computerPlays();
   }

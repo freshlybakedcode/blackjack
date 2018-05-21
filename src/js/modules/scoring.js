@@ -4,7 +4,7 @@ const playerScoreDOM = document.getElementById('playerScore');
 const handContainsAce = function handContainsAce(hand) {
   let hasAce = false;
   hand.cards.forEach((card) => {
-    card.face === 'A' ? hasAce = true : hasAce = hasAce;
+    card.face === 'A' && card.faceValue === 11? hasAce = true : hasAce = hasAce;
   });
   return hasAce;
 };
@@ -26,6 +26,13 @@ export function renderScore(values) { // Outputs the scores to screen
   playerScoreDOM.innerHTML = values[1];
 }
 
+export function checkSplit(hands, index) {
+  if (hands[index].cards.length === 2 && hands[index].cards[0].face === hands[index].cards[1].face) {
+    return true;
+  }
+  return false;
+}
+
 export function checkScore(hands, index) { // Assesses the score (accessed from) for bust/winning/splitting etc
   const value = getScores(hands);
   // *** return controlsEnabled, message, hands in play ***
@@ -41,11 +48,4 @@ export function checkScore(hands, index) { // Assesses the score (accessed from)
     return [true, 'Counting ace as 1 not 11', hands];
   }
   return [true, 'Player still in play', hands];
-}
-
-export function checkSplit(hands, index) {
-  if (hands[index].cards.length === 2 && hands[index].cards[0].face === hands[index].cards[1].face) {
-    return true;
-  }
-  return false;
 }
