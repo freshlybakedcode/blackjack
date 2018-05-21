@@ -1,6 +1,3 @@
-const computerScoreDOM = document.getElementById('computerScore');
-const playerScoreDOM = document.getElementById('playerScore');
-
 export const handContainsAce = function handContainsAce(hand) {
   let hasAce = false;
   hand.cards.forEach((card) => {
@@ -19,11 +16,6 @@ export function getScores(hands) { // Returns an array with both the computer an
     scores.push(score);
   });
   return scores;
-}
-
-export function renderScore(values) { // Outputs the scores to screen
-  computerScoreDOM.innerHTML = values[0];
-  playerScoreDOM.innerHTML = values[1];
 }
 
 export function checkSplit(hands, index) {
@@ -49,6 +41,3 @@ export function checkScore(hands, index) { // Assesses the score (accessed from)
   }
   return [true, 'Player still in play', hands];
 }
-
-
-//TODO: blackjack ident, push/draw scoring

@@ -1,7 +1,7 @@
 import '../scss/main.scss';
 import cards from './modules/cards';
 import deal from './modules/deal';
-import { getScores, renderScore, checkScore, checkSplit } from './modules/scoring';
+import { getScores, checkScore, checkSplit } from './modules/scoring';
 import AIHelper from './modules/AIHelper';
 
 // DOM elements
@@ -9,6 +9,7 @@ const hitDOM = document.getElementById('hit');
 const stickDOM = document.getElementById('stick');
 const splitDOM = document.getElementById('split');
 const computerScoreDOM = document.getElementById('computerScore');
+const playerScoreDOM = document.getElementById('playerScore');
 
 let controlsEnabled = true;
 const deck = [];
@@ -22,6 +23,11 @@ let hands = [
     cards: [],
   },
 ];
+
+const renderScore = function renderScore(values) { // Outputs the scores to screen
+  computerScoreDOM.innerHTML = values[0];
+  playerScoreDOM.innerHTML = values[1];
+};
 
 const initNewGame = function initNewGame() {
   computerScoreDOM.classList.add('hide');
