@@ -57,11 +57,11 @@ const computerPlays = function computerPlays() {
   hands[0].cards.cards = cards.reveal(hands[0].cards); // Reveal computer cards
   computerScoreDOM.classList.remove('hide'); // Display computer score
   cards.createUI(hands[0].cards, playerComputer); // Display updated cards
-  while (AIHelper.gameIsInPlay !== false) {
-    AIHelper.currentScoreSetter(getScores(hands));
-    // Has the computer already won?
-    if (AIHelper.computerHasWon()) {
-      finishMessage = AIHelper.computerHasWon();
+
+  while (AIHelper.gameIsInPlay === true) {
+    AIHelper.currentScoreSetter(hands); // Give AIHelper up to date scores
+    if (AIHelper.isGameOver()[0]) { // Is the game over?
+      console.log(AIHelper.isGameOver());
       break;
     }
     // If not, play a card
@@ -69,6 +69,7 @@ const computerPlays = function computerPlays() {
     cards.createUI(hands[0].cards, playerComputer);
     renderScore(getScores(hands));
   }
+  finishMessage = AIHelper.isGameOver()[1];
   finishGame(finishMessage);
 };
 

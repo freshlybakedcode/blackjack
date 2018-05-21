@@ -49,3 +49,6 @@ export function checkScore(hands, index) { // Assesses the score (accessed from)
   }
   return [true, 'Player still in play', hands];
 }
+
+
+//TODO: blackjack ident, push/draw scoring
