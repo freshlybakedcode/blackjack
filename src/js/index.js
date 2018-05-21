@@ -1,7 +1,7 @@
 import '../scss/main.scss';
 import cards from './modules/cards';
 import deal from './modules/deal';
-import { getScores, renderScore, checkScore } from './modules/scoring';
+import { getScores, renderScore, checkScore, checkSplit } from './modules/scoring';
 import AIHelper from './modules/AIHelper';
 
 // DOM elements
@@ -40,6 +40,11 @@ const initNewGame = function initNewGame() {
 
   // Render the player score in DOM
   renderScore(getScores(hands));
+
+  // Check for split
+  if (checkSplit(hands, 1)) {
+    splitDOM.classList.remove('hide'); // Display option to split
+  }
 };
 
 const finishGame = function finishGame(AIResponse) {
@@ -66,9 +71,12 @@ const computerPlays = function computerPlays() {
 
 hitDOM.addEventListener('click', () => {
   if (controlsEnabled) {
+    if (!splitDOM.classList.contains('hide')) {
+      splitDOM.classList.add('hide'); // If user had option to split and didn't take it, rehide
+    }
     deal(hands, 1, deck, 1, true);
     cards.createUI(hands[1].cards, playerHuman);
-    const checkPlayerScoreData = checkScore(hands, 1);
+    const checkPlayerScoreData = checkScore(hands, 1); // Receive array with all score data
     controlsEnabled = checkPlayerScoreData[0];
     console.log(checkPlayerScoreData[1]);
     hands = checkPlayerScoreData[2]; // Update hands array in case of aces scoring etc.
@@ -78,13 +86,9 @@ hitDOM.addEventListener('click', () => {
 
 stickDOM.addEventListener('click', () => {
   if (controlsEnabled) {
-    console.log('stickDOM');
-    // Freeze controls
-    controlsEnabled = false;
-    // Reveal computer cards
-    hands[0].cards.cards = cards.reveal(hands[0].cards);
-    // Display computer score and updated cards
-    computerScoreDOM.classList.remove('hide');
+    controlsEnabled = false; // Freeze controls
+    hands[0].cards.cards = cards.reveal(hands[0].cards); // Reveal computer cards
+    computerScoreDOM.classList.remove('hide'); // Display computer score and updated cards
     cards.createUI(hands[0].cards, playerComputer);
     // Play game
     computerPlays();
@@ -92,10 +96,9 @@ stickDOM.addEventListener('click', () => {
 });
 
 splitDOM.addEventListener('click', () => {
-  if (controlsEnabled) {
-    console.log('splitDOM');
-    // Work out how to play multiple hands
-  }
+  splitDOM.classList.add('hide'); // Only getting the option to click once
+  console.log('splitDOM');
+  // Work out how to play multiple hands
 });
 
 initNewGame();
