@@ -12,7 +12,7 @@ const computerScoreDOM = document.getElementById('computerScore');
 
 let controlsEnabled = true;
 const deck = [];
-const hands = [
+let hands = [
   {
     name: 'Computer',
     cards: [],
@@ -68,8 +68,11 @@ hitDOM.addEventListener('click', () => {
   if (controlsEnabled) {
     deal(hands, 1, deck, 1, true);
     cards.createUI(hands[1].cards, playerHuman);
-    renderScore(getScores(hands));
-    controlsEnabled = checkScore(hands, 1); // Will return false if bust
+    const checkPlayerScoreData = checkScore(hands, 1);
+    controlsEnabled = checkPlayerScoreData[0];
+    console.log(checkPlayerScoreData[1]);
+    hands = checkPlayerScoreData[2]; // Update hands array in case of aces scoring etc.
+    renderScore(getScores(hands)); // Update scores last in case of new hands data
   }
 });
 

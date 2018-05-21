@@ -15,7 +15,6 @@ const AIHelper = {
       this.gameIsInPlay = false;
       return 'computer wins';
     }
-    this.computerScoreRightNow += 1;
     return false;
   },
 };
