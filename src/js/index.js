@@ -53,7 +53,6 @@ const finishGame = function finishGame(AIResponse) {
 };
 
 const computerPlays = function computerPlays() {
-  let finishMessage = '';
   hands[0].cards.cards = cards.reveal(hands[0].cards); // Reveal computer cards
   computerScoreDOM.classList.remove('hide'); // Display computer score
   cards.createUI(hands[0].cards, playerComputer); // Display updated cards
@@ -69,8 +68,7 @@ const computerPlays = function computerPlays() {
     cards.createUI(hands[0].cards, playerComputer);
     renderScore(getScores(hands));
   }
-  finishMessage = AIHelper.isGameOver()[1];
-  finishGame(finishMessage);
+  finishGame(AIHelper.isGameOver()[1]);
 };
 
 hitDOM.addEventListener('click', () => {

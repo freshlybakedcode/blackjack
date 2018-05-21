@@ -1,7 +1,7 @@
 const computerScoreDOM = document.getElementById('computerScore');
 const playerScoreDOM = document.getElementById('playerScore');
 
-const handContainsAce = function handContainsAce(hand) {
+export const handContainsAce = function handContainsAce(hand) {
   let hasAce = false;
   hand.cards.forEach((card) => {
     card.face === 'A' && card.faceValue === 11? hasAce = true : hasAce = hasAce;

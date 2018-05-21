@@ -17,12 +17,17 @@ const AIHelper = {
     if (this.playerScore > 21) {
       this.gameIsInPlay = false;
       return [true, 'Player bust: computer wins!'];
-    } else if (this.computerScoreRightNow > 21) {
+    } else if (this.computerScoreRightNow > 21 && !handContainsAce(this.hands[0])) {
       this.gameIsInPlay = false;
       return [true, 'computer bust'];
+    } else if (this.computerScoreRightNow > 21 && handContainsAce(this.hands[0])) {
+      return [true, 'This shouldn\'t be true, the ace the computer is holding could count as 1'];
     } else if (this.computerScoreRightNow > this.playerScore && this.computerScoreRightNow <= 21) { // computer wins
       this.gameIsInPlay = false;
       return [true, 'computer wins'];
+    } else if (this.computerScoreRightNow > 18 && this.computerScoreRightNow === this.playerScore) {
+      this.gameIsInPlay = false;
+      return [true, 'Both scores the same; push!'];
     }
     return false;
   },
