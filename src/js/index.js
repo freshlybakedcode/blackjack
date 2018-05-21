@@ -56,10 +56,11 @@ const computerPlays = function computerPlays() {
   hands[0].cards.cards = cards.reveal(hands[0].cards); // Reveal computer cards
   computerScoreDOM.classList.remove('hide'); // Display computer score
   cards.createUI(hands[0].cards, playerComputer); // Display updated cards
-
+  let AIHelperResponse = [];
   while (AIHelper.gameIsInPlay === true) {
     AIHelper.currentScoreSetter(hands); // Give AIHelper up to date scores
-    if (AIHelper.isGameOver()[0]) { // Is the game over?
+    AIHelperResponse = AIHelper.isGameOver();
+    if (AIHelperResponse[0]) { // Is the game over?
       console.log(AIHelper.isGameOver());
       break;
     }
@@ -67,8 +68,14 @@ const computerPlays = function computerPlays() {
     deal(hands, 0, deck, 1, true);
     cards.createUI(hands[0].cards, playerComputer);
     renderScore(getScores(hands));
+    // If the AIHelper returns a new hand the update the values
+    if (AIHelperResponse[2]) {
+      console.log('updating computer card values due to ace');
+      hands = AIHelperResponse[2];
+      renderScore(getScores(hands));
+    }
   }
-  finishGame(AIHelper.isGameOver()[1]);
+  finishGame(AIHelperResponse[1]);
 };
 
 hitDOM.addEventListener('click', () => {

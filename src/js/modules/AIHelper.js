@@ -20,8 +20,13 @@ const AIHelper = {
     } else if (this.computerScoreRightNow > 21 && !handContainsAce(this.hands[0])) {
       this.gameIsInPlay = false;
       return [true, 'computer bust'];
-    } else if (this.computerScoreRightNow > 21 && handContainsAce(this.hands[0])) {
-      return [true, 'This shouldn\'t be true, the ace the computer is holding could count as 1'];
+    } else if (this.computerScoreRightNow > 21 && handContainsAce(this.hands[0])) { // Adjust scoring for ace
+      this.hands[0].cards.forEach((card) => {
+        if (card.faceValue === 11) {
+          card.faceValue = 1;
+        }
+      });
+      return [false, 'Should have updated computer score - ace now equals 1', this.hands];
     } else if (this.computerScoreRightNow > this.playerScore && this.computerScoreRightNow <= 21) { // computer wins
       this.gameIsInPlay = false;
       return [true, 'computer wins'];
