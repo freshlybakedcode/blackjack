@@ -72,18 +72,18 @@ const cards = {
       insertPosition.appendChild(newCard);
     });
   },
-  flip: function flip(cards) {
-    console.log(cards);
-    cards.forEach((card) => {
+  flip: function flip(hand) {
+    console.log(hand);
+    hand.forEach((card) => {
       card.faceUp = !card.faceUp;
     });
-    return cards;
+    return hand;
   },
-  reveal: function reveal(cards) {
-    cards.forEach((card) => {
+  reveal: function reveal(hand) {
+    hand.forEach((card) => {
       card.faceUp = true;
     });
-    return cards;
+    return hand;
   },
 };
 
