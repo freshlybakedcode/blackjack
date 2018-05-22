@@ -5,46 +5,45 @@ const deck = [];
 const shuffledDeck = [];
 cards.createDeck(shuffledDeck, true);
 
-describe('cards.js tests', function () {
-  describe('`cards` object', function () {
-    it('should exist', function () {
+describe('cards.js tests', () => {
+  describe('`cards` object', () => {
+    it('should exist', () => {
       assert.notStrictEqual(cards, undefined);
     });
 
-    describe('createDeck() function', function () {
-      it('should exist', function () {
+    describe('createDeck() function', () => {
+      it('should exist', () => {
         assert.notStrictEqual(cards.createDeck, undefined);
       });
-      it('should create an array', function () {
+      it('should create an array', () => {
         assert.strictEqual(cards.createDeck(deck, true), deck.isArray);
       });
-      it('the array should contain 52 entries', function () {
+      it('the array should contain 52 entries', () => {
         assert.strictEqual(deck.length, 52);
       });
-      it('each of the 52 array entries should contain 4 pieces of data', function () {
-        assert.notStrictEqual(deck.forEach(element => {
-          element.face;
-          element.suit;
-          element.value;
-          element.faceUp;
-        }), "" | undefined);
+      it('each of the 52 array entries should contain 4 pieces of data', () => {
+        deck.forEach((element) => {
+          assert.notStrictEqual(element.face, '' || undefined);
+          assert.notStrictEqual(element.suit, '' || undefined);
+          assert.notStrictEqual(element.value, '' || undefined);
+          assert.notStrictEqual(element.faceUp, '' || undefined);
+        });
       });
     });
 
-    describe('shuffleDeck() function', function () {
-      it('should exist', function () {
+    describe('shuffleDeck() function', () => {
+      it('should exist', () => {
         assert.notStrictEqual(cards.shuffleDeck, undefined);
       });
-      it('should change the order of the cards', function () {
+      it('should change the order of the cards', () => {
         assert.notStrictEqual(cards.shuffleDeck(shuffledDeck), deck);
       });
     });
 
-    describe('createUI() function', function () {
-      it('should exist', function () {
+    describe('createUI() function', () => {
+      it('should exist', () => {
         assert.notStrictEqual(cards.createUI, undefined);
       });
     });
-
   });
-}); 
+});
