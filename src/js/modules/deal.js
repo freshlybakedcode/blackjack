@@ -1,7 +1,9 @@
 function deal(to, toIndex, from, quantity, faceUp) {
   for (let i = 0; i < quantity; i += 1) {
-    to[toIndex].cards.push(from.shift());
-    to[toIndex].cards[to[toIndex].cards.length - 1].faceUp = faceUp;
+    const tempCard = [];
+    tempCard.push(from.shift());
+    tempCard[0].faceUp = faceUp;
+    to[toIndex].cards.push(tempCard.shift());
   }
 }
 
