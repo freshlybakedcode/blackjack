@@ -6,10 +6,16 @@ import AIHelper from './modules/AIHelper';
 
 // DOM elements
 const hitDOM = document.getElementById('hit');
-const stickDOM = document.getElementById('stick');
+const standDOM = document.getElementById('stand');
 const splitDOM = document.getElementById('split');
 const computerScoreDOM = document.getElementById('computerScore');
 const playerScoreDOM = document.getElementById('playerScore');
+const incrementDOM = document.getElementById('increment');
+const decrementDOM = document.getElementById('decrement');
+const bankDOM = document.getElementById('bank');
+const currentBetDOM = document.getElementById('current-bet');
+let bank = 20;
+let currentBet = 5;
 
 let controlsEnabled = true;
 const deck = [];
@@ -28,8 +34,16 @@ const renderScore = function renderScore(values) { // Outputs the scores to scre
   computerScoreDOM.innerHTML = values[0];
   playerScoreDOM.innerHTML = values[1];
 };
+const updateCurrentBet = function updateCurrentBet() { // Updates the current bet to the screen
+  currentBetDOM.innerHTML = currentBet;
+};
+const updateBank = function updateBank() {
+  bankDOM.innerHTML = bank;
+};
 
 const initNewGame = function initNewGame() {
+  updateCurrentBet();
+  updateBank();
   computerScoreDOM.classList.add('hide');
   controlsEnabled = true;
   cards.createDeck(deck, true); // Create new deck, cards face up
@@ -102,7 +116,7 @@ hitDOM.addEventListener('click', () => {
   }
 });
 
-stickDOM.addEventListener('click', () => {
+standDOM.addEventListener('click', () => {
   if (controlsEnabled) {
     controlsEnabled = false; // Freeze controls
     // Play game
@@ -116,6 +130,19 @@ splitDOM.addEventListener('click', () => {
   // Work out how to play multiple hands
 });
 
+incrementDOM.addEventListener('click', () => {
+  if (currentBet + 5 <= bank) {
+    currentBet += 5;
+    updateCurrentBet();
+  }
+});
+decrementDOM.addEventListener('click', () => {
+  if (currentBet > 5) {
+    currentBet -= 5;
+    updateCurrentBet();
+  }
+});
+
 initNewGame();
 
 // console.table(deck);
@@ -124,3 +151,8 @@ initNewGame();
 // console.table(hands);
 // console.log(getScores(hands));
 
+//TODO: - Reuse same deck and check to see when cards run out then reshuffle
+//      - Betting system
+//      - Split cards
+//      - Double down
+//      - Pretty graphics
