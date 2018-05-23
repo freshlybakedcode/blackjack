@@ -192,8 +192,7 @@ initNewGame();
 // console.table(hands);
 // console.log(getScores(hands));
 
-//TODO: - Reuse same deck and check to see when cards run out then reshuffle
-//      - Betting system
+// TODO: - check to see when cards run out then reshuffle
 //      - Split cards
 //      - Double down
 //      - Pretty graphics
