@@ -3,8 +3,10 @@ import cards from './modules/cards';
 import deal from './modules/deal';
 import { getScores, checkScore, checkSplit } from './modules/scoring';
 import AIHelper from './modules/AIHelper';
+import { hideUIElement, revealUIElement, toggleUIElement } from './modules/UIHelper';
 
 // DOM elements
+const playDOM = document.getElementById('play');
 const hitDOM = document.getElementById('hit');
 const standDOM = document.getElementById('stand');
 const splitDOM = document.getElementById('split');
@@ -46,7 +48,7 @@ const updateBank = function updateBank() {
 const initNewGame = function initNewGame() {
   updateCurrentBet();
   updateBank();
-  computerScoreDOM.classList.add('hide');
+  hideUIElement(computerScoreDOM);
   controlsEnabled = true;
   bettingEnabled = true;
   cards.createDeck(deck, true); // Create new deck, cards face up
@@ -66,7 +68,7 @@ const initNewGame = function initNewGame() {
 
   // Check for split
   if (checkSplit(hands, 1)) {
-    splitDOM.classList.remove('hide'); // Display option to split
+    revealUIElement(splitDOM); // Display option to split
   }
 };
 
@@ -87,7 +89,7 @@ const calculateBank = function calculateBank(AIResponse) {
 
 const computerPlays = function computerPlays() {
   hands[0].cards.cards = cards.reveal(hands[0].cards); // Reveal computer cards
-  computerScoreDOM.classList.remove('hide'); // Display computer score
+  revealUIElement(computerScoreDOM); // Display computer score
   cards.createUI(hands[0].cards, playerComputer); // Display updated cards
   let AIHelperResponse = [];
   while (AIHelper.gameIsInPlay === true) {
@@ -113,9 +115,7 @@ const computerPlays = function computerPlays() {
 hitDOM.addEventListener('click', () => {
   if (controlsEnabled) {
     bettingEnabled = false;
-    if (!splitDOM.classList.contains('hide')) {
-      splitDOM.classList.add('hide'); // If user had option to split and didn't take it, rehide
-    }
+    hideUIElement(splitDOM); // If user had option to split and didn't take it, rehide
     deal(hands, 1, deck, 1, true);
     cards.createUI(hands[1].cards, playerHuman);
     const checkPlayerScoreData = checkScore(hands, 1); // Receive array with all score data
@@ -139,7 +139,7 @@ standDOM.addEventListener('click', () => {
 
 splitDOM.addEventListener('click', () => {
   bettingEnabled = false;
-  splitDOM.classList.add('hide'); // Only getting the option to click once
+  hideUIElement(splitDOM); // Only getting the option to click once
   console.log('splitDOM');
   // Work out how to play multiple hands
 });
