@@ -14,10 +14,12 @@ const incrementDOM = document.getElementById('increment');
 const decrementDOM = document.getElementById('decrement');
 const bankDOM = document.getElementById('bank');
 const currentBetDOM = document.getElementById('current-bet');
-let bank = 20;
-let currentBet = 5;
 
+let bank = 30;
+let currentBet = 5;
 let controlsEnabled = true;
+let bettingEnabled = true;
+
 const deck = [];
 let hands = [
   {
@@ -46,6 +48,7 @@ const initNewGame = function initNewGame() {
   updateBank();
   computerScoreDOM.classList.add('hide');
   controlsEnabled = true;
+  bettingEnabled = true;
   cards.createDeck(deck, true); // Create new deck, cards face up
   cards.shuffleDeck(deck);
 
@@ -67,9 +70,19 @@ const initNewGame = function initNewGame() {
   }
 };
 
-const finishGame = function finishGame(AIResponse) {
-  // AIResponse is returned from playAI()
-  console.log(AIResponse);
+const calculateBank = function calculateBank(AIResponse) {
+  if (AIResponse[1] === 'win') {
+    console.log('the player wins');
+    bank += currentBet;
+  }
+  if (AIResponse[1] === 'lose') {
+    console.log('the player loses');
+    bank -= currentBet;
+  }
+  if (AIResponse[1] === 'draw') {
+    console.log('It\'s a draw!');
+  }
+  updateBank();
 };
 
 const computerPlays = function computerPlays() {
@@ -81,7 +94,6 @@ const computerPlays = function computerPlays() {
     AIHelper.currentScoreSetter(hands); // Give AIHelper up to date scores
     AIHelperResponse = AIHelper.isGameOver();
     if (AIHelperResponse[0]) { // Is the game over?
-      console.log(AIHelper.isGameOver());
       break;
     }
     // If not, play a card
@@ -89,17 +101,18 @@ const computerPlays = function computerPlays() {
     cards.createUI(hands[0].cards, playerComputer);
     renderScore(getScores(hands));
     // If the AIHelper returns a new hand the update the values
-    if (AIHelperResponse[2]) {
+    if (AIHelperResponse[3]) {
       console.log('updating computer card values due to ace');
-      hands = AIHelperResponse[2];
+      hands = AIHelperResponse[3];
       renderScore(getScores(hands));
     }
   }
-  finishGame(AIHelperResponse[1]);
+  calculateBank(AIHelperResponse);
 };
 
 hitDOM.addEventListener('click', () => {
   if (controlsEnabled) {
+    bettingEnabled = false;
     if (!splitDOM.classList.contains('hide')) {
       splitDOM.classList.add('hide'); // If user had option to split and didn't take it, rehide
     }
@@ -125,21 +138,26 @@ standDOM.addEventListener('click', () => {
 });
 
 splitDOM.addEventListener('click', () => {
+  bettingEnabled = false;
   splitDOM.classList.add('hide'); // Only getting the option to click once
   console.log('splitDOM');
   // Work out how to play multiple hands
 });
 
 incrementDOM.addEventListener('click', () => {
-  if (currentBet + 5 <= bank) {
-    currentBet += 5;
-    updateCurrentBet();
+  if (bettingEnabled && controlsEnabled) {
+    if (currentBet + 5 <= bank) {
+      currentBet += 5;
+      updateCurrentBet();
+    }
   }
 });
 decrementDOM.addEventListener('click', () => {
-  if (currentBet > 5) {
-    currentBet -= 5;
-    updateCurrentBet();
+  if (bettingEnabled && controlsEnabled) {
+    if (currentBet > 5) {
+      currentBet -= 5;
+      updateCurrentBet();
+    }
   }
 });
 

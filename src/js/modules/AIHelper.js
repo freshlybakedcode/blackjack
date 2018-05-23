@@ -16,10 +16,10 @@ const AIHelper = {
     // return isGameOver, message
     if (this.playerScore > 21) {
       this.gameIsInPlay = false;
-      return [true, 'Player bust: computer wins!'];
+      return [true, 'bust', 'Player bust: computer wins!'];
     } else if (this.computerScoreRightNow > 21 && !handContainsAce(this.hands[0])) {
       this.gameIsInPlay = false;
-      return [true, 'computer bust'];
+      return [true, 'win', 'computer bust'];
     } else if (this.computerScoreRightNow > 21 && handContainsAce(this.hands[0])) { // Adjust scoring for ace
       this.hands[0].cards.forEach((card) => {
         if (card.faceValue === 11) {
@@ -29,10 +29,10 @@ const AIHelper = {
       return [false, 'Should have updated computer score - ace now equals 1', this.hands];
     } else if (this.computerScoreRightNow > this.playerScore && this.computerScoreRightNow <= 21) { // computer wins
       this.gameIsInPlay = false;
-      return [true, 'computer wins'];
+      return [true, 'lose', 'computer wins'];
     } else if (this.computerScoreRightNow > 18 && this.computerScoreRightNow === this.playerScore) {
       this.gameIsInPlay = false;
-      return [true, 'Both scores the same; push!'];
+      return [true, draw, 'Both scores the same; push!'];
     }
     return false;
   },
