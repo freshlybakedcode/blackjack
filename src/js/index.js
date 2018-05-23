@@ -3,7 +3,7 @@ import cards from './modules/cards';
 import deal from './modules/deal';
 import { getScores, checkScore, checkSplit } from './modules/scoring';
 import AIHelper from './modules/AIHelper';
-import { hideUIElement, revealUIElement, toggleUIElement } from './modules/UIHelper';
+import { hideUIElement, revealUIElement } from './modules/UIHelper';
 
 // DOM elements
 const playDOM = document.getElementById('play');
@@ -45,14 +45,17 @@ const updateBank = function updateBank() {
   bankDOM.innerHTML = bank;
 };
 
-const initNewGame = function initNewGame() {
+const startGame = function startGame() {
   updateCurrentBet();
   updateBank();
   hideUIElement(computerScoreDOM);
   controlsEnabled = true;
   bettingEnabled = true;
-  cards.createDeck(deck, true); // Create new deck, cards face up
-  cards.shuffleDeck(deck);
+
+  // discard any existing cards
+  hands.forEach((hand) => {
+    hand.cards.length = 0;
+  });
 
   // deal() removes cards from the deck and adds them to a player array
   deal(hands, 0, deck, 1, false);
@@ -72,7 +75,15 @@ const initNewGame = function initNewGame() {
   }
 };
 
+const initNewGame = function initNewGame() {
+  cards.createDeck(deck, true); // Create new deck, cards face up
+  cards.shuffleDeck(deck);
+
+  startGame();
+};
+
 const calculateBank = function calculateBank(AIResponse) {
+  console.log(`calculateBank fired and received: ${AIResponse}`);
   if (AIResponse[1] === 'win') {
     console.log('the player wins');
     bank += currentBet;
@@ -85,6 +96,9 @@ const calculateBank = function calculateBank(AIResponse) {
     console.log('It\'s a draw!');
   }
   updateBank();
+  hideUIElement(hitDOM);
+  hideUIElement(standDOM);
+  revealUIElement(playDOM);
 };
 
 const computerPlays = function computerPlays() {
@@ -111,6 +125,15 @@ const computerPlays = function computerPlays() {
   }
   calculateBank(AIHelperResponse);
 };
+
+playDOM.addEventListener('click', () => {
+  hideUIElement(playDOM);
+  revealUIElement(hitDOM);
+  revealUIElement(standDOM);
+  controlsEnabled = true;
+  AIHelper.resetGame();
+  startGame();
+});
 
 hitDOM.addEventListener('click', () => {
   if (controlsEnabled) {

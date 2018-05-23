@@ -12,6 +12,9 @@ const AIHelper = {
     this.playerScore = scores[1];
     console.log(`Set computerScoreRightNow to ${this.computerScoreRightNow} and playerScore to ${this.playerScore}`);
   },
+  resetGame: function resetGame() {
+    this.gameIsInPlay = true;
+  },
   isGameOver: function isGameOver() {
     // return isGameOver, message
     if (this.playerScore > 21) {
