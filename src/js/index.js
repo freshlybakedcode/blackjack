@@ -3,7 +3,7 @@ import cards from './modules/cards';
 import deal from './modules/deal';
 import { getScores, checkScore, checkSplit } from './modules/scoring';
 import AIHelper from './modules/AIHelper';
-import { hideUIElement, revealUIElement } from './modules/UIHelper';
+import { hideUIElement, revealUIElement, toggleUIElement } from './modules/UIHelper';
 
 // DOM elements
 const playDOM = document.getElementById('play');
@@ -44,13 +44,17 @@ const updateCurrentBet = function updateCurrentBet() { // Updates the current be
 const updateBank = function updateBank() {
   bankDOM.innerHTML = bank;
 };
+const toggleBetting = function toggleBetting() {
+  bettingEnabled = !bettingEnabled;
+  toggleUIElement(incrementDOM);
+  toggleUIElement(decrementDOM);
+};
 
 const startGame = function startGame() {
   updateCurrentBet();
   updateBank();
   hideUIElement(computerScoreDOM);
   controlsEnabled = true;
-  bettingEnabled = true;
 
   // discard any existing cards
   hands.forEach((hand) => {
@@ -78,8 +82,8 @@ const startGame = function startGame() {
 const initNewGame = function initNewGame() {
   cards.createDeck(deck, true); // Create new deck, cards face up
   cards.shuffleDeck(deck);
-
-  startGame();
+  updateBank();
+  updateCurrentBet();
 };
 
 const calculateBank = function calculateBank(AIResponse) {
@@ -99,6 +103,7 @@ const calculateBank = function calculateBank(AIResponse) {
   hideUIElement(hitDOM);
   hideUIElement(standDOM);
   revealUIElement(playDOM);
+  toggleBetting();
 };
 
 const computerPlays = function computerPlays() {
@@ -127,6 +132,7 @@ const computerPlays = function computerPlays() {
 };
 
 playDOM.addEventListener('click', () => {
+  toggleBetting();
   hideUIElement(playDOM);
   revealUIElement(hitDOM);
   revealUIElement(standDOM);
@@ -137,7 +143,6 @@ playDOM.addEventListener('click', () => {
 
 hitDOM.addEventListener('click', () => {
   if (controlsEnabled) {
-    bettingEnabled = false;
     hideUIElement(splitDOM); // If user had option to split and didn't take it, rehide
     deal(hands, 1, deck, 1, true);
     cards.createUI(hands[1].cards, playerHuman);
@@ -161,14 +166,15 @@ standDOM.addEventListener('click', () => {
 });
 
 splitDOM.addEventListener('click', () => {
-  bettingEnabled = false;
-  hideUIElement(splitDOM); // Only getting the option to click once
-  console.log('splitDOM');
-  // Work out how to play multiple hands
+  if (controlsEnabled) {
+    hideUIElement(splitDOM); // Only getting the option to click once
+    console.log('splitDOM');
+    // Work out how to play multiple hands
+  }
 });
 
 incrementDOM.addEventListener('click', () => {
-  if (bettingEnabled && controlsEnabled) {
+  if (bettingEnabled) {
     if (currentBet + 5 <= bank) {
       currentBet += 5;
       updateCurrentBet();
@@ -176,7 +182,7 @@ incrementDOM.addEventListener('click', () => {
   }
 });
 decrementDOM.addEventListener('click', () => {
-  if (bettingEnabled && controlsEnabled) {
+  if (bettingEnabled) {
     if (currentBet > 5) {
       currentBet -= 5;
       updateCurrentBet();
@@ -196,3 +202,5 @@ initNewGame();
 //      - Split cards
 //      - Double down
 //      - Pretty graphics
+//      - If dealt two aces, should give score of 2 not 22
+//      - If previous bet exceeds the bank total, amend this

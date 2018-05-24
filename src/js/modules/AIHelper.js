@@ -35,7 +35,7 @@ const AIHelper = {
       return [true, 'lose', 'computer wins'];
     } else if (this.computerScoreRightNow > 18 && this.computerScoreRightNow === this.playerScore) {
       this.gameIsInPlay = false;
-      return [true, draw, 'Both scores the same; push!'];
+      return [true, 'draw', 'Both scores the same; push!'];
     }
     return false;
   },
