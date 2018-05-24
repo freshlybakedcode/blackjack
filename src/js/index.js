@@ -97,20 +97,18 @@ const initNewGame = function initNewGame() {
 const calculateBank = function calculateBank(AIResponse) {
   console.log(`calculateBank fired and received: ${AIResponse}`);
   if (AIResponse[1] === 'win') {
-    console.log('the player wins');
     bank += currentBet;
   }
   if (AIResponse[1] === 'lose' || AIResponse[1] === 'bust') {
-    console.log('the player loses');
     bank -= currentBet;
     if (currentBet > bank) {
       currentBet = bank;
       updateCurrentBet();
     }
   }
-  if (AIResponse[1] === 'draw') {
-    console.log('It\'s a draw!');
-  }
+  // if (AIResponse[1] === 'draw') {
+  //   console.log('It\'s a draw!');
+  // }
   if (bank > 0) {
     modal.setModal(AIResponse[2]);
     revealUIElement(playDOM);
@@ -224,3 +222,4 @@ initNewGame();
 //      - Split cards
 //      - Double down
 //      - Pretty graphics
+//      - Identify natural blackjack
