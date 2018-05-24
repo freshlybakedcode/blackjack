@@ -11,6 +11,7 @@ const playDOM = document.getElementById('play');
 const hitDOM = document.getElementById('hit');
 const standDOM = document.getElementById('stand');
 const splitDOM = document.getElementById('split');
+const computerScoreWrapperDOM = document.getElementById('computerScore-wrapper');
 const computerScoreDOM = document.getElementById('computerScore');
 const playerScoreDOM = document.getElementById('playerScore');
 const incrementDOM = document.getElementById('increment');
@@ -54,7 +55,7 @@ const toggleBetting = function toggleBetting() {
 const startGame = function startGame() {
   updateCurrentBet();
   updateBank();
-  hideUIElement(computerScoreDOM);
+  hideUIElement(computerScoreWrapperDOM);
   controlsEnabled = true;
 
   // discard any existing cards
@@ -70,6 +71,12 @@ const startGame = function startGame() {
   // display the dealt cards in DOM
   cards.createUI(hands[0].cards, playerComputer);
   cards.createUI(hands[1].cards, playerHuman);
+
+  const checkPlayerScoreData = checkScore(hands, 1); // Receive array with all score data
+  if (checkPlayerScoreData[2]) {
+    hands = checkPlayerScoreData[2]; // Update hands array in case of double ace
+  }
+  renderScore(getScores(hands)); // Update scores last in case of new hands data
 
   // Render the player score in DOM
   renderScore(getScores(hands));
@@ -119,7 +126,7 @@ const calculateBank = function calculateBank(AIResponse) {
 
 const computerPlays = function computerPlays() {
   hands[0].cards.cards = cards.reveal(hands[0].cards); // Reveal computer cards
-  revealUIElement(computerScoreDOM); // Display computer score
+  revealUIElement(computerScoreWrapperDOM); // Display computer score
   cards.createUI(hands[0].cards, playerComputer); // Display updated cards
   let AIHelperResponse = [];
   while (AIHelper.gameIsInPlay === true) {
@@ -161,7 +168,9 @@ hitDOM.addEventListener('click', () => {
     const checkPlayerScoreData = checkScore(hands, 1); // Receive array with all score data
     controlsEnabled = checkPlayerScoreData[0];
     console.log(checkPlayerScoreData[1]);
-    hands = checkPlayerScoreData[2]; // Update hands array in case of aces scoring etc.
+    if (checkPlayerScoreData[2]) {
+      hands = checkPlayerScoreData[2]; // Update hands array in case of aces scoring etc.
+    }
     renderScore(getScores(hands)); // Update scores last in case of new hands data
     if (!checkPlayerScoreData[0]) { // Player must be bust, computer's turn
       computerPlays();
@@ -171,6 +180,7 @@ hitDOM.addEventListener('click', () => {
 
 standDOM.addEventListener('click', () => {
   if (controlsEnabled) {
+    hideUIElement(splitDOM); // If user had option to split and didn't take it, rehide
     controlsEnabled = false; // Freeze controls
     // Play game
     computerPlays();
@@ -214,5 +224,3 @@ initNewGame();
 //      - Split cards
 //      - Double down
 //      - Pretty graphics
-//      - If dealt two aces, should give score of 2 not 22
-//      - Display some kind of message after each round
