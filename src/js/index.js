@@ -4,6 +4,7 @@ import deal from './modules/deal';
 import { getScores, checkScore, checkSplit } from './modules/scoring';
 import AIHelper from './modules/AIHelper';
 import { hideUIElement, revealUIElement, toggleUIElement } from './modules/UIHelper';
+import modal from './modules/modal';
 
 // DOM elements
 const playDOM = document.getElementById('play');
@@ -92,13 +93,15 @@ const calculateBank = function calculateBank(AIResponse) {
     console.log('the player wins');
     bank += currentBet;
   }
-  if (AIResponse[1] === 'lose') {
+  if (AIResponse[1] === 'lose' || AIResponse[1] === 'bust') {
     console.log('the player loses');
     bank -= currentBet;
   }
   if (AIResponse[1] === 'draw') {
     console.log('It\'s a draw!');
   }
+  modal.setModal(AIResponse[2]);
+  revealUIElement(modal.modalDOM);
   updateBank();
   hideUIElement(hitDOM);
   hideUIElement(standDOM);
@@ -133,6 +136,7 @@ const computerPlays = function computerPlays() {
 
 playDOM.addEventListener('click', () => {
   toggleBetting();
+  hideUIElement(modal.modalDOM);
   hideUIElement(playDOM);
   revealUIElement(hitDOM);
   revealUIElement(standDOM);
@@ -204,3 +208,5 @@ initNewGame();
 //      - Pretty graphics
 //      - If dealt two aces, should give score of 2 not 22
 //      - If previous bet exceeds the bank total, amend this
+//      - Handle running out of money
+//      - Display some kind of message after each round
