@@ -100,13 +100,17 @@ const calculateBank = function calculateBank(AIResponse) {
   if (AIResponse[1] === 'draw') {
     console.log('It\'s a draw!');
   }
-  modal.setModal(AIResponse[2]);
+  if (bank > 0) {
+    modal.setModal(AIResponse[2]);
+    revealUIElement(playDOM);
+    toggleBetting();
+  } else {
+    modal.setModal('BANKRUPTED');
+  }
   revealUIElement(modal.modalDOM);
   updateBank();
   hideUIElement(hitDOM);
   hideUIElement(standDOM);
-  revealUIElement(playDOM);
-  toggleBetting();
 };
 
 const computerPlays = function computerPlays() {
