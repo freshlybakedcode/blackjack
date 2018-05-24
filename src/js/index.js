@@ -96,6 +96,10 @@ const calculateBank = function calculateBank(AIResponse) {
   if (AIResponse[1] === 'lose' || AIResponse[1] === 'bust') {
     console.log('the player loses');
     bank -= currentBet;
+    if (currentBet > bank) {
+      currentBet = bank;
+      updateCurrentBet();
+    }
   }
   if (AIResponse[1] === 'draw') {
     console.log('It\'s a draw!');
@@ -211,6 +215,4 @@ initNewGame();
 //      - Double down
 //      - Pretty graphics
 //      - If dealt two aces, should give score of 2 not 22
-//      - If previous bet exceeds the bank total, amend this
-//      - Handle running out of money
 //      - Display some kind of message after each round
